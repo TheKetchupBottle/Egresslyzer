@@ -6,6 +6,12 @@ function flagEmoji(cc) {
   return String.fromCodePoint(A + cc.toUpperCase().charCodeAt(0) - 65, A + cc.toUpperCase().charCodeAt(1) - 65);
 }
 
+function mostCommon(values) {
+  const counts = new Map();
+  for (const v of values.filter(Boolean)) counts.set(v, (counts.get(v) || 0) + 1);
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+}
+
 const PROVIDERS = [
   {
     name: "ipapi.co",
@@ -128,6 +134,39 @@ export async function runIntel({ mount, setHero }) {
 
   // Hosting / VPN heuristic from org strings
   if (results.length) {
+    addRow(mount, {
+      name: "Provider coverage",
+      note: "successful intelligence sources",
+      value: `${results.length} / ${PROVIDERS.length} providers returned data`,
+      status: results.length === PROVIDERS.length ? { kind: "ok", label: "OK" } : { kind: "warn", label: "PARTIAL" },
+    });
+    const cities = results.map((x) => [x.city, x.region, x.country_code || x.country].filter(Boolean).join(", "));
+    addRow(mount, {
+      name: "Consensus location",
+      note: "most common city / region / country",
+      value: mostCommon(cities) || "—",
+    });
+    addRow(mount, {
+      name: "Consensus timezone",
+      note: "most common provider timezone",
+      value: mostCommon(results.map((x) => x.timezone)) || "—",
+    });
+    addRow(mount, {
+      name: "Coordinates",
+      note: "provider latitude / longitude values",
+      value: [...new Set(results.map((x) => x.latlon).filter(Boolean))].join(" · ") || "—",
+    });
+    addRow(mount, {
+      name: "Postal codes",
+      note: "provider postal / ZIP values",
+      value: [...new Set(results.map((x) => x.postal).filter(Boolean))].join(", ") || "—",
+    });
+    addRow(mount, {
+      name: "ASN / organization",
+      note: "unique network ownership values",
+      value: [...new Set(results.map((x) => [x.asn, x.org].filter(Boolean).join(" ")).filter(Boolean))].join(" · ") || "—",
+    });
+
     const orgs = results.map((x) => (x.org || "").toLowerCase()).join(" | ");
     const hosts = ["digitalocean","linode","amazon","aws","google","oracle","microsoft","azure","ovh","hetzner","vultr","contabo","leaseweb","alibaba","tencent","cloudflare","fastly","mullvad","nordvpn","expressvpn","proton","surfshark","pia","private internet access"];
     const hit = hosts.find((h) => orgs.includes(h));

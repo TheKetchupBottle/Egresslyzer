@@ -72,24 +72,33 @@ function statusClass(s) {
   return "dim";
 }
 
-export function setHero(field, value) {
-  const map = {
-    ipv4: "hero-ipv4",
-    ipv6: "hero-ipv6",
-    country: "hero-country",
-    asn: "hero-asn",
-    rdns: "hero-rdns",
-    pop: "hero-pop",
-  };
-  const id = map[field];
-  if (!id) return;
-  const node = document.getElementById(id);
-  if (!node) return;
-  if (value == null || value === "") {
-    node.textContent = "—";
-  } else {
-    node.textContent = value;
+const SUMMARY_FIELDS = [
+  ["ipv4", "Public IPv4", "primary outbound v4"],
+  ["ipv6", "Public IPv6", "primary outbound v6"],
+  ["country", "Country", "from IP intelligence"],
+  ["asn", "ASN / ISP", "from IP intelligence"],
+  ["rdns", "Reverse DNS", "PTR record"],
+  ["pop", "Nearest CF POP", "from cdn-cgi/trace"],
+];
+
+const summaryRows = new Map();
+
+export function resetSummary() {
+  const root = document.getElementById("summary-body");
+  if (!root) return;
+  root.innerHTML = "";
+  summaryRows.clear();
+  for (const [field, name, note] of SUMMARY_FIELDS) {
+    const handle = addRow("summary-body", { name, note, value: null });
+    summaryRows.set(field, handle);
   }
+}
+
+export function setHero(field, value) {
+  const row = summaryRows.get(field);
+  if (!row) return;
+  if (value == null || value === "") row.update("—", { kind: "dim", label: "—" });
+  else row.update(String(value), { kind: "ok", label: "OK" });
 }
 
 export async function withTimeout(p, ms, label = "timeout") {

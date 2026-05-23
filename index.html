@@ -3,78 +3,69 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="color-scheme" content="dark light" />
+<meta name="color-scheme" content="light dark" />
 <meta name="description" content="Egresslyzer — inspect your local IP, outbound IPs, DNS egress, CDN POP routing, WebRTC UDP exposure, and IP intelligence in one place." />
-<meta name="theme-color" content="#0b0f14" />
+<meta name="theme-color" content="#ffffff" />
 <title>Egresslyzer — Network Egress &amp; IP Diagnostics</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f14'/%3E%3Cpath d='M14 38c6-14 30-14 36 0' stroke='%2336d399' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='38' r='4' fill='%2336d399'/%3E%3Ccircle cx='50' cy='38' r='4' fill='%2336d399'/%3E%3Cpath d='M32 18v22' stroke='%2336d399' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Cpath d='M14 38c6-14 30-14 36 0' stroke='%2336d399' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='38' r='4' fill='%2336d399'/%3E%3Ccircle cx='50' cy='38' r='4' fill='%2336d399'/%3E%3Cpath d='M32 18v22' stroke='%2336d399' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <div class="logo" aria-hidden="true">
-      <svg viewBox="0 0 64 64" width="28" height="28"><rect width="64" height="64" rx="14" fill="transparent"/><path d="M14 38c6-14 30-14 36 0" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="14" cy="38" r="4" fill="currentColor"/><circle cx="50" cy="38" r="4" fill="currentColor"/><path d="M32 18v22" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+<main class="page">
+  <header class="page-head">
+    <h1>Egresslyzer</h1>
+    <p class="lede">A browser-side check of how your network egresses to the public internet — local IPs, outbound IPv4/IPv6, DNS resolvers, CDN POP routing, WebRTC UDP exposure, and IP intelligence.</p>
+    <div class="head-actions">
+      <button id="rerun" class="link">↻ Re-run all tests</button>
+      <button id="theme" class="link">◐ Toggle theme</button>
+      <a class="link" href="https://github.com/UnoxyRich/Egresslyzer" target="_blank" rel="noopener">Source on GitHub →</a>
     </div>
-    <div>
-      <h1>Egresslyzer</h1>
-      <p class="tag">Network egress &amp; IP diagnostics in your browser.</p>
-    </div>
-  </div>
-  <div class="actions">
-    <button id="rerun" class="btn" title="Re-run all probes">↻ Re-run</button>
-    <button id="theme" class="btn ghost" title="Toggle theme">◐</button>
-    <a class="btn ghost" href="https://github.com/UnoxyRich/Egresslyzer" target="_blank" rel="noopener" title="Source">★ Source</a>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section class="hero">
-    <div class="hero-grid">
-      <div class="kv"><span class="k">Public IPv4</span><span class="v" id="hero-ipv4">…</span></div>
-      <div class="kv"><span class="k">Public IPv6</span><span class="v" id="hero-ipv6">…</span></div>
-      <div class="kv"><span class="k">Country</span><span class="v" id="hero-country">…</span></div>
-      <div class="kv"><span class="k">ASN / ISP</span><span class="v" id="hero-asn">…</span></div>
-      <div class="kv"><span class="k">Reverse DNS</span><span class="v" id="hero-rdns">…</span></div>
-      <div class="kv"><span class="k">Nearest CF POP</span><span class="v" id="hero-pop">…</span></div>
-    </div>
+  <section class="section" id="section-summary">
+    <h2>Summary</h2>
+    <div class="table" id="summary-body"></div>
   </section>
 
-  <section class="grid">
-    <article class="card" id="card-outbound">
-      <header><h2>Outbound IPs</h2><p>What public IPs different probes see for your connection. Divergence here usually means split tunneling, a transparent proxy, or IPv4/IPv6 dual-stack quirks.</p></header>
-      <div class="body" id="outbound-body"></div>
-    </article>
+  <section class="section" id="section-outbound">
+    <h2>Outbound IPs</h2>
+    <p class="desc">Public IPs reported by independent endpoints. Divergence usually means split tunneling, a transparent proxy, or IPv4/IPv6 dual-stack quirks.</p>
+    <div class="table" id="outbound-body"></div>
+  </section>
 
-    <article class="card" id="card-webrtc">
-      <header><h2>WebRTC UDP Exposure</h2><p>STUN candidate gathering. Reveals local interface IPs (when mDNS is off) and your public UDP-reflexive address. If a VPN leaks here, real source IP shows up.</p></header>
-      <div class="body" id="webrtc-body"></div>
-    </article>
+  <section class="section" id="section-webrtc">
+    <h2>WebRTC UDP Exposure</h2>
+    <p class="desc">STUN candidate gathering. Surfaces local interface IPs (when mDNS is off) and your UDP server-reflexive address. VPN leaks often show up here.</p>
+    <div class="table" id="webrtc-body"></div>
+  </section>
 
-    <article class="card" id="card-cdn">
-      <header><h2>CDN Routing &amp; POP</h2><p>Which edge node each major CDN routes you to. Useful for diagnosing latency, anycast misroutes, and confirming which carrier hands you off to which provider.</p></header>
-      <div class="body" id="cdn-body"></div>
-    </article>
+  <section class="section" id="section-cdn">
+    <h2>CDN Routing &amp; POP</h2>
+    <p class="desc">Which edge node each major CDN hands you to. Useful for diagnosing latency, anycast misroutes, and confirming carrier handoff.</p>
+    <div class="table" id="cdn-body"></div>
+  </section>
 
-    <article class="card" id="card-dns">
-      <header><h2>DNS Resolver View</h2><p>What public DNS-over-HTTPS resolvers report about your client. The browser already chose a resolver — these probes show what each <em>would</em> say if it answered for you.</p></header>
-      <div class="body" id="dns-body"></div>
-    </article>
+  <section class="section" id="section-dns">
+    <h2>DNS Resolver View</h2>
+    <p class="desc">What public DoH resolvers report about your client. These are not your system resolver — they show what each <em>would</em> see if it answered for you.</p>
+    <div class="table" id="dns-body"></div>
+  </section>
 
-    <article class="card" id="card-intel">
-      <header><h2>IP Intelligence</h2><p>Geolocation, ASN, ISP, organization, hosting-vs-residential signals, and proxy/VPN heuristics aggregated from multiple databases.</p></header>
-      <div class="body" id="intel-body"></div>
-    </article>
+  <section class="section" id="section-intel">
+    <h2>IP Intelligence</h2>
+    <p class="desc">Geolocation, ASN, ISP, organization, reverse DNS, and a hosting-vs-residential heuristic aggregated from multiple databases.</p>
+    <div class="table" id="intel-body"></div>
+  </section>
 
-    <article class="card" id="card-browser">
-      <header><h2>Browser &amp; Network Hints</h2><p>What your browser exposes locally: connection class, languages, timezone, platform, screen, and capabilities relevant to network probing.</p></header>
-      <div class="body" id="browser-body"></div>
-    </article>
+  <section class="section" id="section-browser">
+    <h2>Browser &amp; Network Hints</h2>
+    <p class="desc">What your browser exposes locally: connection class, languages, timezone, platform, screen, and capabilities relevant to network probing.</p>
+    <div class="table" id="browser-body"></div>
   </section>
 
   <footer class="foot">
-    <p>Egresslyzer runs entirely in your browser. No data is stored; probes hit third-party public endpoints (Cloudflare, ipify, ipapi, ipwho, ifconfig.co, Google &amp; Cloudflare DoH, ipinfo). Results are observational, not authoritative.</p>
-    <p class="muted">Built as a static site &middot; deployed via GitHub Pages.</p>
+    <p>Egresslyzer runs entirely client-side. No data is stored or proxied; probes hit only third-party public endpoints (Cloudflare, ipify, ipapi, ipwho, ifconfig.co, Google &amp; Cloudflare DoH, ipinfo). Results are observational, not authoritative.</p>
+    <p class="muted">Static site · deployed via GitHub Pages.</p>
   </footer>
 </main>
 

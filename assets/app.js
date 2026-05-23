@@ -4,7 +4,7 @@ import { runCDN } from "./modules/cdn.js";
 import { runDNS } from "./modules/dns.js";
 import { runIntel } from "./modules/intel.js";
 import { runBrowser } from "./modules/browser.js";
-import { addRow, clearCard, setHero } from "./modules/ui.js";
+import { addRow, clearCard, setHero, resetSummary } from "./modules/ui.js";
 
 const TASKS = [
   { id: "outbound-body", fn: runOutbound, hero: true },
@@ -23,12 +23,7 @@ const ctx = {
 
 async function runAll() {
   for (const t of TASKS) clearCard(t.id);
-  // Reset hero placeholders
-  for (const id of ["hero-ipv4","hero-ipv6","hero-country","hero-asn","hero-rdns","hero-pop"]) {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = '<span class="skeleton"></span>';
-  }
-  // Kick off all probes in parallel
+  resetSummary();
   await Promise.allSettled(TASKS.map((t) => t.fn({ ...ctx, mount: t.id })));
 }
 

@@ -74,7 +74,6 @@ function statusClass(s) {
 
 const SUMMARY_FIELDS = [
   ["ipv4", "Public IPv4", "primary outbound v4"],
-  ["ipv6", "Public IPv6", "primary outbound v6"],
   ["country", "Country", "from IP intelligence"],
   ["asn", "ASN / ISP", "from IP intelligence"],
   ["rdns", "Reverse DNS", "PTR record"],

@@ -38,7 +38,7 @@ themeBtn.addEventListener("click", () => {
   const cur = document.documentElement.dataset.theme === "light" ? "light" : "dark";
   applyTheme(cur === "light" ? "dark" : "light");
 });
-applyTheme(localStorage.getItem("egz_theme") || "light");
+applyTheme(localStorage.getItem("egz_theme") || "dark");
 
 // Toggle chips: hide ip / hide location
 const TOGGLES = {

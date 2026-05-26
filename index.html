@@ -4,20 +4,49 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<meta name="description" content="IP Lookup — view your current network's IP address, location info, and connectivity to domestic and international sites." />
+<meta name="description" content="Egresslyzer is a client-side IP lookup and network diagnostics dashboard for checking your public IP, geolocation, DNS egress, WebRTC exposure, CDN routing, and browser network hints." />
+<meta name="keywords" content="IP lookup, public IP checker, network diagnostics, DNS leak test, WebRTC leak test, CDN routing, ASN lookup, geolocation" />
+<meta name="author" content="TheKetchupBottle" />
+<meta name="robots" content="index,follow" />
 <meta name="theme-color" content="#ffffff" />
-<title>IP Lookup</title>
+<link rel="canonical" href="https://egresslyzer.ccwu.cc/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://egresslyzer.ccwu.cc/" />
+<meta property="og:title" content="Egresslyzer - IP Lookup & Network Diagnostics" />
+<meta property="og:description" content="Check your public IP, approximate location, DNS egress, WebRTC exposure, CDN edge routing, ASN/ISP details, and browser network hints from a client-side dashboard." />
+<meta property="og:site_name" content="Egresslyzer" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Egresslyzer - IP Lookup & Network Diagnostics" />
+<meta name="twitter:description" content="Client-side public IP lookup and network diagnostics for DNS egress, WebRTC exposure, CDN routing, ASN/ISP details, and browser hints." />
+<title>Egresslyzer - IP Lookup & Network Diagnostics</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Cpath d='M14 38c6-14 30-14 36 0' stroke='%2336d399' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='38' r='4' fill='%2336d399'/%3E%3Ccircle cx='50' cy='38' r='4' fill='%2336d399'/%3E%3Cpath d='M32 18v22' stroke='%2336d399' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="assets/style.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Egresslyzer",
+  "url": "https://egresslyzer.ccwu.cc/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "description": "A client-side IP lookup and network diagnostics dashboard for checking public IP addresses, geolocation, DNS egress, WebRTC exposure, CDN routing, ASN and ISP details, and browser network hints.",
+  "creator": {
+    "@type": "Person",
+    "name": "TheKetchupBottle",
+    "url": "https://github.com/TheKetchupBottle"
+  },
+  "isAccessibleForFree": true
+}
+</script>
 </head>
 <body>
 <nav class="topnav" id="topnav">
   <div class="topnav-inner">
     <a class="brand" href="#overview">
       <span class="brand-mark" aria-hidden="true">◉</span>
-      <span class="brand-text">IP Lookup</span>
+      <span class="brand-text">Egresslyzer</span>
     </a>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="overview">Overview</button>
@@ -39,8 +68,8 @@
 
 <main class="page">
   <header class="hero">
-    <h1>IP Lookup</h1>
-    <p class="lede">View your current network's IP address, location info, and connectivity.</p>
+    <h1>Egresslyzer</h1>
+    <p class="lede">Client-side IP lookup and network diagnostics for your current connection.</p>
     <div class="toolbar">
       <button class="chip" data-toggle="hide-ip" aria-pressed="false">Hide IP</button>
       <button class="chip" data-toggle="hide-location" aria-pressed="false">Hide Location</button>

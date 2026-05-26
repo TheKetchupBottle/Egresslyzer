@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://egresslyzer.ccwu.cc/sitemap.xml
